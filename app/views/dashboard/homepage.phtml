@@ -1,0 +1,131 @@
+<?php $this->partial('layouts/dashboard_header'); ?>
+<div class="content-wrapper">
+    <div class="content-header">
+        <div class="container-fluid">
+            <div class="row mb-2">
+
+                <div class="col-sm-6">
+                    <h1 class="m-0">Homepage Details</h1>
+                </div>
+                <div class="col-sm-6">
+                    <ol class="breadcrumb float-sm-right">
+                        <li class="breadcrumb-item"><a href="#">Home</a></li>
+                        <li class="breadcrumb-item active">Homepage</li>
+                    </ol>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <?php echo $this->flashSession->output(); ?>
+    <section class="content">
+        <div class="container-fluid">
+            <div class="card card-primary">
+                <div class="card-header">
+                    <h3 class="card-title">Frontend Details</h3>
+                </div>
+                <form action='dashboard/addhmp' method="post" enctype="multipart/form-data">
+                    <div class="card-body">
+
+                        <div class="input-group mb-3">
+                            <div class="input-group-prepend">
+                                <span class="input-group-text"><i class="fas fa-heading"></i></span>
+                            </div>
+                            <input type="text" class="form-control" name="title" placeholder="Enter title ">
+                        </div>
+                        <br>
+
+                        <div class="input-group mb-3">
+                            <div class="input-group-prepend">
+                                <span class="input-group-text"><i class="fas fa-heading"></i></span>
+                            </div>
+                            <input type="text" class="form-control" name="coltitle" placeholder="Enter Collection title">
+                        </div>
+
+                        <br>
+
+
+                        <div class="input-group mb-3">
+                            <div class="input-group-prepend">
+                                <span class="input-group-text"><i class="fas fa-newspaper"></i></span>
+                            </div>
+                            <input type="text" class="form-control" name="fav_item" placeholder="Enter New Item to be shown.">
+                        </div>
+                        <br>
+
+                        
+                        <div class="row" style="height:150px;">
+                            <div class="col col-sm-10">
+                                <div class="form-group">
+                                    <div class="input-group">
+                                        <div class="custom-file">
+                                            <label class="custom-file-label" for="bgimg" style="font-weight : lighter;">Upload Background Image</label>
+                                            <input type="file" class="custom-file-input" onchange="readURL(this,0)" name="bgimg" id="bgimg">
+
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col" id="preview_image">
+                                <img src="img/company/user.png" id="previewImg" alt="Insert Image" style="width: 75%; height:auto;">
+                            </div>
+                        </div>
+
+                        <br>
+                        <div class="row" style="height:150px;">
+                        <span class = "alert alert-info">Enter Vector Image for Overlay image</span><br>
+                            <div class="col col-sm-10">
+                            
+                                <div class="form-group">
+                                    <div class="input-group">
+
+                                        
+                                        <div class="custom-file">
+                                            <label class="custom-file-label" for="ovelayimg" style="font-weight : lighter;">Upload Overlay Image</label>
+                                            <input type="file" class="custom-file-input" onchange="readURL(this,1)" name="ovelayimg" id="ovelayimg">
+
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col">
+                                <img src="img/company/user.png" id="previewImg2" alt="Insert Image" style="width: 75%; height:auto;">
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="card-footer">
+                        <button type="submit" class="btn btn-primary">Submit</button>
+                    </div>
+                </form>
+            </div>
+
+        </div>
+    </section>
+</div>
+<?php $this->partial('layouts/dashboard_footer'); ?>
+<script src="plugins/jquery/jquery.min.js"></script>
+
+
+<script src="plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
+<script src="../../dist/js/adminlte.min.js?v=3.2.0"></script>
+
+
+<script>
+
+    // Preview Multiple image of different input.
+    function readURL(input,id) {
+        if (input.files && input.files[0]) {
+            var reader = new FileReader();
+            reader.onload = function(e) {
+                if(id == 1){
+                    $("#previewImg2").attr("src", e.target.result);
+                }else{
+                    $("#previewImg").attr("src", e.target.result);
+                }
+               
+            };
+            reader.readAsDataURL(input.files[0]);
+        }
+    }
+</script>

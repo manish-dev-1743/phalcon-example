@@ -1,0 +1,381 @@
+<?php $this->partial('layouts/dashboard_header'); ?>
+
+<div class="content-wrapper">
+
+    <section class="content-header">
+        <div class="container-fluid">
+            <div class="row mb-2">
+                <div class="col-sm-6">
+                    <h1>DataTables</h1>
+                </div>
+                <div class="col-sm-6">
+                    <ol class="breadcrumb float-sm-right">
+                        <li class="breadcrumb-item"><a href="dashboard">Home</a></li>
+                        <li class="breadcrumb-item active">DataTables</li>
+                    </ol>
+                </div>
+                <div class="col-sm-6">
+                </div>
+                <div class="col-sm-6">
+                    <div class="form-group">
+                        <button class="btn btn-primary float-sm-right" id='add_user'><i class="fas fa-user-plus"></i></button>
+                    </div>
+                </div>
+    </section>
+
+    <section class="content">
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-12">
+
+                    <div class="card">
+                        <div class="card-header">
+
+                            <div class="alert alert-success" id="successMessage" style="display : none;"></div>
+                            <div class="alert alert-danger" id="errorMessage" style="display : none;"></div>
+                            <h3 class="card-title">DataTable with default features</h3>
+                        </div>
+                        <div class="card-body">
+                            <table id="example1" class="table table-bordered table-striped">
+                                <thead>
+                                    <tr>
+                                        <th>id</th>
+                                        <th>Profile</th>
+                                        <th>Name</th>
+                                        <th>Email</th>
+                                        <th>Role</th>
+                                        <th>Action</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <?php foreach ($datas as $data) { ?>
+                                        <tr>
+                                            <td><?php echo $data->id; ?></td>
+                                            <?php if($data->profile_url != null) { ?>
+                                                <td style="text-align: center;"><img src="public/img/profile/<?php echo $data->profile_url; ?>" id="pop" style="height : 100px; width : 100px"></a></td>
+                                            <?php }else{ ?>
+                                                <td style="text-align: center;"><img src="public/img/profile/dummy.png" id="pop" style="height : 100px; width : 100px"></a></td>
+                                            <?php } ?>
+                                            <td><?php echo $data->name; ?></td>
+                                            <td><?php echo $data->email; ?></td>
+                                            <td><?php echo $data->role; ?></td>
+                                            <td>
+                                                <?php
+                                                if ($user->role == 'Super Admin') {
+                                                    if ($data->role != 'Super Admin') { ?>
+                                                        <a href="dashboard/delete/<?php echo $data->id; ?>" onClick="return confirm('Are you sure you want to delete user ?')" class="btn btn-sm btn-danger"><i class="fas fa-trash"></i></a>
+                                                        <a href="javascript:void(0)" data-toogle="tooltip" data-id="<?php echo $data->id; ?>" data-original-title="Edit" class="edit btn btn-primary btn-sm editUser"><i class="fas fa-edit"></i></a>
+                                                    <?php }
+                                                } else if ($user->role == 'Admin') {
+                                                    if ($data->role != 'Super Admin' && $data->role != 'Admin') { ?>
+                                                        <a href="dashboard/delete/<?php echo $data->id; ?>" onClick="return confirm('Are you sure you want to delete user ?')" class="btn btn-sm btn-danger"><i class="fas fa-trash"></i></a>
+                                                        <a href="javascript:void(0)" data-toogle="tooltip" data-id="<?php echo $data->id; ?>" data-original-title="Edit" class="edit btn btn-primary btn-sm editUser"><i class="fas fa-edit"></i></a>
+
+                                                <?php }
+                                                } ?>
+                                            </td>
+                                        </tr>
+                                    <?php } ?>
+                                </tbody>
+
+                            </table>
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+        
+
+
+
+
+
+            <!--- Add User modal -->
+            <div class="modal fade" id="addusr">
+                <div class="modal-dialog">
+                    <div class="modal-content bg-secondary">
+                        <div class="modal-header">
+                            <h4 class="modal-title">Add User</h4>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <div class="modal-body">
+                            <div class="alert alert-danger" id="Modalerror" style="display : none;"></div>
+                            <div class="alert alert-success" id="Modalsuccess" style="display : none;"></div>
+                            <form>
+                                <div class="input-group mb-3">
+                                    <div class="input-group-prepend">
+                                        <span class="input-group-text"><i class="fas fa-user"></i></span>
+                                    </div>
+                                    <input type="text" class="form-control" placeholder="Name" id="nme" required>
+                                </div>
+                                <div class="input-group mb-3">
+                                    <div class="input-group-prepend">
+                                        <span class="input-group-text"><i class="fas fa-envelope"></i></span>
+                                    </div>
+                                    <input type="email" class="form-control" placeholder="Email" id="eml" required>
+                                </div>
+                                <div class="input-group mb-3">
+                                    <div class="input-group-prepend">
+                                        <span class="input-group-text"><i class="fas fa-key"></i></span>
+                                    </div>
+                                    <input type="password" class="form-control" placeholder="Password" id="pass" required>
+                                </div>
+                                <div class="input-group mb-3">
+                                    <div class="input-group-prepend">
+                                        <span class="input-group-text"><i class="fas fa-key"></i></span>
+                                    </div>
+                                    <input type="password" class="form-control" placeholder="Re-type Password" id="repass" required>
+                                </div>
+
+                                <div class="col-sm-6">
+                                    <div class="form-group">
+                                        <label>Role</label>
+                                        <select class="custom-select" id="rol">
+                                            <option disabled>Category</option>
+                                            <option value="Admin">Admin</option>
+                                            <option value="User">User</option>
+                                        </select>
+                                    </div>
+                                </div>
+
+
+                        </div>
+                        <div class="modal-footer justify-content-between">
+                            <button type="button" class="btn btn-outline-light" id="svBtn">Save changes</button>
+                            </form>
+                            <button type="button" class="btn btn-outline-light" data-dismiss="modal">Close</button>
+
+                        </div>
+                    </div>
+
+                </div>
+
+            </div>
+
+
+
+
+
+            <!-- Update user modal -->
+            <div class="modal fade" id="modal-default">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h4 class="modal-title">Edit user</h4>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <div class="modal-body">
+                            <div class="input-group mb-3">
+                                <div class="input-group-prepend">
+                                    <span class="input-group-text"><i class="fas fa-user"></i></span>
+                                </div>
+                                <input type="hidden" class="form-control" id="id">
+                                <input type="text" class="form-control" placeholder="Name" id="name" required>
+                            </div>
+                            <div class="input-group mb-3">
+                                <div class="input-group-prepend">
+                                    <span class="input-group-text"><i class="fas fa-envelope"></i></span>
+                                </div>
+                                <input type="email" class="form-control" placeholder="Email" id="email" required>
+                            </div>
+                            <div class="input-group mb-3">
+                                <div class="input-group-prepend">
+                                    <span class="alert alert-danger">Password is not mandatory to fill. But still you can change your password</span>
+                                </div>
+                            </div>
+                            <div class="input-group mb-3">
+                                <div class="input-group-prepend">
+                                    <span class="input-group-text"><i class="fas fa-key"></i></span>
+                                </div>
+                                <input type="password" class="form-control" placeholder="Password" id="password">
+                            </div>
+                            <div class="input-group mb-3">
+                                <div class="input-group-prepend">
+                                    <span class="input-group-text"><i class="fas fa-key"></i></span>
+                                </div>
+                                <input type="password" class="form-control" placeholder="Re-type Password" id="re_pass">
+                            </div>
+
+                            <div class="col-sm-6">
+                                <div class="form-group">
+                                    <label>Role</label>
+                                    <select class="custom-select" id="role">
+                                        <option disabled>Category</option>
+                                        <option value="Admin">Admin</option>
+                                        <option value="User">User</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="modal-footer justify-content-between">
+                            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                            <button type="button" class="btn btn-primary" id="Savedit">Save changes</button>
+                        </div>
+                    </div>
+
+                </div>
+
+            </div>
+
+    </section>
+
+
+
+
+    <script src="../../plugins/jquery/jquery.min.js"></script>
+
+    <script src="../../plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
+
+    <script src="../../plugins/datatables/jquery.dataTables.min.js"></script>
+    <script src="../../plugins/datatables-bs4/js/dataTables.bootstrap4.min.js"></script>
+    <script src="../../plugins/datatables-responsive/js/dataTables.responsive.min.js"></script>
+    <script src="../../plugins/datatables-responsive/js/responsive.bootstrap4.min.js"></script>
+    <script src="../../plugins/datatables-buttons/js/dataTables.buttons.min.js"></script>
+    <script src="../../plugins/datatables-buttons/js/buttons.bootstrap4.min.js"></script>
+    <script src="../../plugins/jszip/jszip.min.js"></script>
+    <script src="../../plugins/pdfmake/pdfmake.min.js"></script>
+    <script src="../../plugins/pdfmake/vfs_fonts.js"></script>
+    <script src="../../plugins/datatables-buttons/js/buttons.html5.min.js"></script>
+    <script src="../../plugins/datatables-buttons/js/buttons.print.min.js"></script>
+    <script src="../../plugins/datatables-buttons/js/buttons.colVis.min.js"></script>
+    <script src="../../dist/js/adminlte.min.js?v=3.2.0"></script>
+    <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script>
+        $(document).ready(function() {
+            $('body').on('click', '.editUser', function() {
+                var user_id = $(this).data('id');
+                $.ajax({
+                    url: "/dashboard/update" + '/' + user_id,
+                    type: "GET",
+                    success: function(Response) {
+                        $('#modal-default').modal('toggle');
+                        $('#id').val(Response[0].id);
+                        $('#name').val(Response[0].name);
+                        $('#email').val(Response[0].email);
+                        $('#role').val(Response[0].role);
+                    },
+                });
+            });
+
+            $('#Savedit').click(function() {
+                var id = $('#id').val();
+                var name = $('#name').val();
+                var email = $('#email').val();
+                var password = $('#password').val();
+                var re_pass = $('#re_pass').val();
+                var role = $('#role').val();
+                $.ajax({
+                    url: "dashboard/edit" + '/' + id,
+                    type: "POST",
+                    dataType: 'json',
+                    data: {
+                        name,
+                        email,
+                        password,
+                        re_pass,
+                        role
+                    },
+                    success: function(response) {
+                        $('#modal-default').modal('hide');
+                        location.reload();
+                        if (response == 'User successfully updated.') {
+                            $('#successMessage').html(response);
+                            $('#successMessage').show();
+                        } else {
+                            $('#errorMessage').html(response);
+                            $('#errorMessage').show();
+                        }
+
+                    },
+                    error: function(error) {},
+                });
+
+            });
+
+            $('#add_user').click(function() {
+                $('#addusr').modal('show');
+            });
+            $('#svBtn').click(function() {
+                var name = $('#nme').val();
+                var email = $('#eml').val();
+                var password = $('#pass').val();
+                var re_pass = $('#repass').val();
+                var role = $('#rol').val();
+                $.ajax({
+                    url: "dashboard/adduser",
+                    type: "POST",
+                    dataType: 'json',
+                    data: {
+                        name,
+                        email,
+                        password,
+                        re_pass,
+                        role
+                    },
+                    success: function(response) {
+
+                        if (response == 'User successfully added.') {
+                            $('#modal-default').modal('hide');
+                            $('#Modalsuccess').html(response);
+                            $('#Modalsuccess').show();
+                            location.reload();
+                        } else {
+                            $('#pass').val('');
+                            $('#repass').val('');
+                            $('#Modalerror').html(response);
+                            $('#Modalerror').show();
+                        }
+
+                    },
+                    error: function(error) {},
+                });
+
+            });
+
+            $('#addusr').on('hide.bs.modal', function() {
+                $("#Modalerror").css("display", "none");
+                $("#Modalsuccess").css("display", "none");
+                $(this).find('form').trigger('reset');
+
+            });
+
+
+            $('body').on('click', '#pop', function(e) {
+                // e.preventDefault() this is stopping the redirect to the image its self
+                e.preventDefault();
+                // #the-modal is the img tag that I use as the modal.
+                 
+                Swal.fire({
+                imageUrl: this.src,
+                imageHeight: 500,
+                imageAlt: 'A tall image'
+                });
+                Swal.fire({
+                    
+                    imageUrl: this.src,
+                    imageWidth: 500,
+                    imageHeight: 500,
+                    imageAlt: 'Profile image',
+                })
+
+            });
+
+
+        });
+    </script>
+
+
+    </body>
+
+    </html>
+    <?php $this->partial('layouts/dashboard_footer'); ?>

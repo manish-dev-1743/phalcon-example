@@ -1,0 +1,133 @@
+<?php $this->partial('frontend_layout/header'); ?>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css">
+<style>
+    .background {
+        height: 850px;
+    }
+
+    .loginbox {
+
+        position: initial;
+        width: 50%;
+        height: auto;
+        margin-left: 24.5%;
+    }
+
+
+    .box {
+        background-color: white !important;
+        border-radius: 36px 40px 40px 40px;
+        border: 5px groove #1C6EA4;
+        box-shadow: -1px 1px 220px 53px rgba(62, 68, 219, 0.74);
+        -webkit-box-shadow: -1px 1px 220px 53px rgba(62, 68, 219, 0.74);
+        -moz-box-shadow: -1px 1px 220px 53px rgba(62, 68, 219, 0.74);
+        text-align: center;
+        height: 650px;
+        width: 500px;
+        margin: auto;
+    }
+
+    .form-container input {
+        margin-bottom: 10px;
+    }
+
+    .card {
+        width: 435px;
+        left: 26px !important;
+        top: 35px;
+    }
+</style>
+
+<div class="loginbox">
+    <div class="box">
+
+        <div class="login-logo">
+            <a href="../../index2.html">
+                <h3>Register a New membership</h3>
+            </a>
+            <div class="container"><?php echo $this->flashSession->output(); ?></div>
+            <?php echo $this->tag->form(['/adduser', 'method' => 'post']); ?>
+        </div>
+        <div class="login-box">
+
+
+            <div class="card">
+
+                <div class="input-group mb-3">
+                    <input type="text" class="form-control" name="name" placeholder="Full name" required>
+                    <div class="input-group-append">
+                        <div class="input-group-text">
+                            <span class="fas fa-user fa-2xl"></span>
+                        </div>
+                    </div>
+                </div>
+
+
+                <div class="input-group mb-3">
+                    <div class="input-group mb-3">
+                        <input type="email" class="form-control" placeholder="Email Address" name="email" required>
+                        <div class="input-group-append">
+                            <div class="input-group-text">
+                                <span class="fas fa-envelope fa-2xl"></span>
+                            </div>
+                        </div>
+                    </div>
+
+
+                    <div class="input-group mb-3">
+                        <input type="password" class="form-control" placeholder="Password" name="password" required>
+                        <div class="input-group-append">
+                            <div class="input-group-text">
+                                <span class="fas fa-lock fa-2xl"></span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="input-group mb-3">
+                        <input type="password" class="form-control" name="re_pass" placeholder="Retype password" required>
+                        <div class="input-group-append">
+                            <div class="input-group-text">
+                                <span class="fas fa-lock fa-2xl"></span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                    <div class="col-8">
+                        <div class="icheck-primary">
+                            <input type="checkbox" id="agreeTerms" name="terms" value="agree">
+                            <label for="agreeTerms">
+                                I agree to the <a href="#">terms</a>
+                            </label>
+                        </div>
+                    </div>
+
+                        <div class="col-4">
+                            <?php echo $this->tag->submitButton(["submit", "class" => 'btn btn-primary btn-block text-right', 'placeholder' => 'Register']); ?>
+                        </div>
+
+                    </div>
+                    </form>
+                    <div class="social-auth-links text-center mb-3">
+                        <p>- OR -</p>
+                        <a href="#" class="btn btn-block btn-primary">
+                            <i class="fab fa-facebook mr-2"></i> Sign up using Facebook
+                        </a>
+                        <a href="#" class="btn btn-block btn-danger">
+                            <i class="fab fa-google-plus mr-2"></i> Sign up using Google+
+                        </a>
+                    </div>
+
+                    </div>
+                <a href="login" class="text-center">I already have a membership</a>
+            </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+<?php $this->partial('frontend_layout/footer'); ?>
